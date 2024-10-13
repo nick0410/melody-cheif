@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - Musician Collaboration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Sign Up</h1>
+        <form action="/signup" method="POST">
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p><a href="/">Already have an account? Log in</a></p>
+        <p id="error-message"></p>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            if (error) {
+                document.getElementById('error-message').textContent = error;
+            }
+        </script>
+    </div>
+</body>
+</html>

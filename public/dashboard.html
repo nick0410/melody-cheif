@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome to the Musician Collaboration Dashboard</h1>
+        <p>You can now create rooms and collaborate with other musicians.</p>
+        
+        <!-- Add button to create profile -->
+        <button class="create-profile-btn" onclick="toggleProfileForm()">+ Create Profile</button>
+        
+        <!-- Profile creation form (initially hidden) -->
+        <div id="profile-form" class="profile-form" style="display: none;">
+            <h2>Create Your Profile</h2>
+            <form action="/create-profile" method="POST" enctype="multipart/form-data">
+                <!-- Name -->
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+                <!-- Role: Instrumentalist or Vocalist -->
+                <label for="role">Are you an Instrumentalist or Vocalist?</label>
+                <select id="role" name="role" onchange="showRoleSpecificFields()" required>
+                    <option value="" disabled selected>Select your role</option>
+                    <option value="Instrumentalist">Instrumentalist</option>
+                    <option value="Vocalist">Vocalist</option>
+                </select>
+
+                <!-- Instrumentalist Type (only visible if Instrumentalist is selected) -->
+                <div id="instrumentalist-fields" style="display: none;">
+                    <label for="instrument-type">Type of Instrumentalist:</label>
+                    <input type="text" id="instrument-type" name="instrument-type" placeholder="Enter your instrument (e.g., Violin, Flute)">
+                </div>
+
+                <!-- Vocalist Type (only visible if Vocalist is selected) -->
+                <div id="vocalist-fields" style="display: none;">
+                    <label for="vocal-type">Type of Vocalist:</label>
+                    <input type="text" id="vocal-type" name="vocal-type" placeholder="Enter your vocal style (e.g., Classical, Pop)">
+                </div>
+
+                
+                <!-- Upload Resume -->
+                <label for="resume">Upload Your Resume:</label>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+
+                <!-- Upload Certifications -->
+                <label for="certifications">Upload Certifications (if any):</label>
+                <input type="file" id="certifications" name="certifications" accept=".pdf,.jpg,.png,.doc,.docx" multiple>
+
+                <!-- Submit Button -->
+                <button type="submit">Submit Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the visibility of the profile creation form
+        function toggleProfileForm() {
+            var form = document.getElementById('profile-form');
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+
+        // Function to show/hide specific fields based on the selected role
+        function showRoleSpecificFields() {
+            var role = document.getElementById('role').value;
+            var instrumentalistFields = document.getElementById('instrumentalist-fields');
+            var vocalistFields = document.getElementById('vocalist-fields');
+
+            if (role === 'Instrumentalist') {
+                instrumentalistFields.style.display = 'block';
+                vocalistFields.style.display = 'none';
+            } else if (role === 'Vocalist') {
+                instrumentalistFields.style.display = 'none';
+                vocalistFields.style.display = 'block';
+            } else {
+                instrumentalistFields.style.display = 'none';
+                vocalistFields.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
