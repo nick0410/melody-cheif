@@ -5,12 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styling for the 3-dot menu */
+        .menu-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+        }
+
+        .menu-container .dot {
+            height: 6px;
+            width: 6px;
+            background-color: black;
+            border-radius: 50%;
+            display: block;
+            margin: 4px 0;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 25px;
+            left: 0;
+            background-color: white;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            width: 150px;
+        }
+
+        .dropdown a {
+            padding: 10px;
+            display: block;
+            text-decoration: none;
+            color: black;
+        }
+
+        .dropdown a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .menu-container.active .dropdown {
+            display: block;
+        }
+
+        .dashboard-container {
+            padding: 20px;
+        }
+
+        .profile-form {
+            margin-top: 20px;
+        }
+
+        .room-options, .search-bar, .recorder-section {
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Search bar style */
+        .search-bar input {
+            padding: 10px;
+            width: 200px;
+        }
+
+        .search-bar button {
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
+    <div class="menu-container" onclick="toggleMenu()">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <div class="dropdown">
+            <a href="index.html" onclick="logout()">Log Out</a>
+            <a href="#" onclick="openAudioEditors()">Go to Audio Editors</a>
+            <a href="#" onclick="openRecorder()">Record Your Piece</a>
+            <a href="#" onclick="createRoom()">Create Room</a>
+        </div>
+    </div>
+
     <div class="dashboard-container">
         <h1>Welcome to the Musician Collaboration Dashboard</h1>
         <p>You can now create rooms and collaborate with other musicians.</p>
-        
+
         <!-- Add button to create profile -->
         <button class="create-profile-btn" onclick="toggleProfileForm()">+ Create Profile</button>
         
@@ -21,6 +100,10 @@
                 <!-- Name -->
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+                <!-- Email -->
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
                 <!-- Role: Instrumentalist or Vocalist -->
                 <label for="role">Are you an Instrumentalist or Vocalist?</label>
@@ -42,7 +125,22 @@
                     <input type="text" id="vocal-type" name="vocal-type" placeholder="Enter your vocal style (e.g., Classical, Pop)">
                 </div>
 
-                
+                <!-- Years of Experience -->
+                <label for="experience">Years of Experience:</label>
+                <input type="number" id="experience" name="experience" placeholder="Enter your years of experience" required>
+
+                <!-- Genre -->
+                <label for="genre">Preferred Genre:</label>
+                <input type="text" id="genre" name="genre" placeholder="Enter your preferred genre (e.g., Jazz, Classical)" required>
+
+                <!-- Location -->
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" placeholder="Enter your location" required>
+
+                <!-- Social Media Links -->
+                <label for="social">Social Media Links:</label>
+                <input type="url" id="social" name="social" placeholder="Enter your social media profile (e.g., Instagram, Twitter)">
+
                 <!-- Upload Resume -->
                 <label for="resume">Upload Your Resume:</label>
                 <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
@@ -53,37 +151,118 @@
 
                 <!-- Submit Button -->
                 <button type="submit">Submit Profile</button>
+
+                </form>
+        </div>
+            <!-- Form fields remain the same as in the previous version -->
+        </div>
+
+        <!-- Room Creation Options -->
+        <div id="room-options" class="room-options">
+            <h2>Create Room</h2>
+            <form action="/create-room" method="POST">
+                <!-- Upload music piece -->
+                <label for="music-piece">Upload Music Piece:</label>
+                <input type="file" id="music-piece" name="music-piece" accept=".mp3,.wav" required>
+
+                <!-- Add users to the room -->
+                <label for="users">Add Users:</label>
+                <input type="text" id="users" name="users" placeholder="Enter usernames/emails of musicians" required>
+
+                <!-- Search bar for finding musicians -->
+                <div class="search-bar">
+                    <label for="search">Search for musicians:</label>
+                    <input type="text" id="search" placeholder="Search musicians...">
+                    <button type="button" onclick="searchMusicians()">Search</button>
+                </div>
+
+                <button type="submit">Create Room</button>
             </form>
+        </div>
+
+        <!-- Recorder Section -->
+        <div id="recorder-section" class="recorder-section">
+            <h2>Record Your Piece</h2>
+            <button onclick="startRecording()">Start Recording</button>
+            <button onclick="stopRecording()">Stop Recording</button>
+            <audio id="audio-playback" controls style="display:none;"></audio>
+            <a id="download-link" style="display:none;">Download Recording</a>
         </div>
     </div>
 
     <script>
-        // Function to toggle the visibility of the profile creation form
+        // Function to toggle the profile form
         function toggleProfileForm() {
             var form = document.getElementById('profile-form');
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
+            form.style.display = form.style.display === "none" ? "block" : "none";
         }
 
-        // Function to show/hide specific fields based on the selected role
-        function showRoleSpecificFields() {
-            var role = document.getElementById('role').value;
-            var instrumentalistFields = document.getElementById('instrumentalist-fields');
-            var vocalistFields = document.getElementById('vocalist-fields');
+        // Function to show/hide menu
+        function toggleMenu() {
+            var menu = document.querySelector('.menu-container');
+            menu.classList.toggle('active');
+        }
 
-            if (role === 'Instrumentalist') {
-                instrumentalistFields.style.display = 'block';
-                vocalistFields.style.display = 'none';
-            } else if (role === 'Vocalist') {
-                instrumentalistFields.style.display = 'none';
-                vocalistFields.style.display = 'block';
-            } else {
-                instrumentalistFields.style.display = 'none';
-                vocalistFields.style.display = 'none';
-            }
+        // Function to handle logout and redirect to login page
+        function logout() {
+            window.location.href = "index.html";
+        }
+
+        // Function to open audio editors (redirects to popular audio editing websites)
+        function openAudioEditors() {
+            window.open("https://www.adobe.com/au/products/audition/free-trial-download.html", "_blank");
+        }
+
+        // Function to show the room creation form
+        function createRoom() {
+            var roomOptions = document.getElementById('room-options');
+            roomOptions.style.display = "block";
+        }
+
+        // Search musicians functionality (placeholder function)
+        function searchMusicians() {
+            var searchInput = document.getElementById('search').value;
+            alert('Searching for: ' + searchInput);
+        }
+
+        // Function to open the recording section
+        function openRecorder() {
+            var recorderSection = document.getElementById('recorder-section');
+            recorderSection.style.display = "block";
+        }
+
+        // Recorder logic
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'audio/wav' });
+                    const audioURL = URL.createObjectURL(blob);
+                    const audioElement = document.getElementById('audio-playback');
+                    const downloadLink = document.getElementById('download-link');
+
+                    audioElement.src = audioURL;
+                    audioElement.style.display = 'block';
+                    downloadLink.href = audioURL;
+                    downloadLink.download = 'recording.wav';
+                    downloadLink.style.display = 'block';
+                };
+            });
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
         }
     </script>
 </body>
