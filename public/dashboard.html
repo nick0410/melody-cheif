@@ -6,70 +6,194 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Styling for the 3-dot menu */
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Container for the 3-dot menu */
         .menu-container {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 20px;
+            left: 20px;
             cursor: pointer;
         }
 
         .menu-container .dot {
-            height: 6px;
-            width: 6px;
-            background-color: black;
+            height: 8px;
+            width: 8px;
+            background-color: #333;
             border-radius: 50%;
             display: block;
-            margin: 4px 0;
+            margin: 5px 0;
         }
 
         .dropdown {
             display: none;
             position: absolute;
-            top: 25px;
+            top: 35px;
             left: 0;
-            background-color: white;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
             z-index: 1;
-            width: 150px;
+            width: 200px;
+            border-radius: 5px;
         }
 
         .dropdown a {
-            padding: 10px;
+            padding: 12px;
             display: block;
             text-decoration: none;
-            color: black;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 1px solid #e6e6e6;
+            transition: background-color 0.3s ease;
         }
 
         .dropdown a:hover {
-            background-color: #f1f1f1;
+            background-color: #f0f0f0;
         }
 
         .menu-container.active .dropdown {
             display: block;
         }
 
+        /* Dashboard Layout */
         .dashboard-container {
+            max-width: 1200px;
+            margin: 50px auto;
             padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            color: #444;
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Profile Creation Form */
         .profile-form {
-            margin-top: 20px;
-        }
-
-        .room-options, .search-bar, .recorder-section {
-            margin-top: 20px;
             display: none;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
-        /* Search bar style */
-        .search-bar input {
-            padding: 10px;
-            width: 200px;
+        .profile-form h2 {
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            color: #333;
         }
 
-        .search-bar button {
+        .profile-form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            font-size: 1.1em;
+        }
+
+        .profile-form input, .profile-form select {
+            width: 100%;
             padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #fff;
+            transition: border-color 0.3s ease;
+        }
+
+        .profile-form input:focus, .profile-form select:focus {
+            border-color: #00aaff;
+            outline: none;
+        }
+
+        .profile-form button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-form button:hover {
+            background-color: #0077cc;
+        }
+
+        /* Profile List */
+        .profile-list {
+            margin-top: 40px;
+        }
+
+        .profile-list h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .profile-item div {
+            flex: 1;
+        }
+
+        .profile-item strong {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #444;
+        }
+
+        .profile-item span {
+            color: #777;
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -80,32 +204,27 @@
         <span class="dot"></span>
         <div class="dropdown">
             <a href="index.html" onclick="logout()">Log Out</a>
+            <a href="#" onclick="toggleProfileForm()">Create Profile</a>
             <a href="#" onclick="openAudioEditors()">Go to Audio Editors</a>
-            <a href="#" onclick="openRecorder()">Record Your Piece</a>
-            <a href="#" onclick="createRoom()">Create Room</a>
+            <a href="terms.html">terms</a>
+            <a href="create-room.html">Create Room</a>
         </div>
     </div>
 
     <div class="dashboard-container">
         <h1>Welcome to the Musician Collaboration Dashboard</h1>
-        <p>You can now create rooms and collaborate with other musicians.</p>
+        <p>Collaborate with musicians, create rooms, and explore musical creativity.</p>
 
-        <!-- Add button to create profile -->
-        <button class="create-profile-btn" onclick="toggleProfileForm()">+ Create Profile</button>
-        
-        <!-- Profile creation form (initially hidden) -->
-        <div id="profile-form" class="profile-form" style="display: none;">
+        <!-- Profile creation form -->
+        <div id="profile-form" class="profile-form">
             <h2>Create Your Profile</h2>
-            <form action="/create-profile" method="POST" enctype="multipart/form-data">
-                <!-- Name -->
+            <form id="profile-form" enctype="multipart/form-data" onsubmit="createProfile(event)">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name" required>
 
-                <!-- Email -->
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-                <!-- Role: Instrumentalist or Vocalist -->
                 <label for="role">Are you an Instrumentalist or Vocalist?</label>
                 <select id="role" name="role" onchange="showRoleSpecificFields()" required>
                     <option value="" disabled selected>Select your role</option>
@@ -113,156 +232,68 @@
                     <option value="Vocalist">Vocalist</option>
                 </select>
 
-                <!-- Instrumentalist Type (only visible if Instrumentalist is selected) -->
                 <div id="instrumentalist-fields" style="display: none;">
                     <label for="instrument-type">Type of Instrumentalist:</label>
                     <input type="text" id="instrument-type" name="instrument-type" placeholder="Enter your instrument (e.g., Violin, Flute)">
                 </div>
 
-                <!-- Vocalist Type (only visible if Vocalist is selected) -->
                 <div id="vocalist-fields" style="display: none;">
                     <label for="vocal-type">Type of Vocalist:</label>
                     <input type="text" id="vocal-type" name="vocal-type" placeholder="Enter your vocal style (e.g., Classical, Pop)">
                 </div>
 
-                <!-- Years of Experience -->
+                <label for="profile-pic">Profile Picture:</label>
+                <input type="file" id="profile-pic" name="profile-pic" accept="image/*" required>
+
                 <label for="experience">Years of Experience:</label>
                 <input type="number" id="experience" name="experience" placeholder="Enter your years of experience" required>
 
-                <!-- Genre -->
                 <label for="genre">Preferred Genre:</label>
-                <input type="text" id="genre" name="genre" placeholder="Enter your preferred genre (e.g., Jazz, Classical)" required>
+                <input type="text" id="genre" name="genre" placeholder="Enter your preferred genre (e.g., Jazz, Classic)" required>
 
-                <!-- Location -->
                 <label for="location">Location:</label>
                 <input type="text" id="location" name="location" placeholder="Enter your location" required>
 
-                <!-- Social Media Links -->
-                <label for="social">Social Media Links:</label>
-                <input type="url" id="social" name="social" placeholder="Enter your social media profile (e.g., Instagram, Twitter)">
-
-                <!-- Upload Resume -->
-                <label for="resume">Upload Your Resume:</label>
-                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
-
-                <!-- Upload Certifications -->
-                <label for="certifications">Upload Certifications (if any):</label>
-                <input type="file" id="certifications" name="certifications" accept=".pdf,.jpg,.png,.doc,.docx" multiple>
-
-                <!-- Submit Button -->
                 <button type="submit">Submit Profile</button>
-
-                </form>
-        </div>
-            <!-- Form fields remain the same as in the previous version -->
-        </div>
-
-        <!-- Room Creation Options -->
-        <div id="room-options" class="room-options">
-            <h2>Create Room</h2>
-            <form action="/create-room" method="POST">
-                <!-- Upload music piece -->
-                <label for="music-piece">Upload Music Piece:</label>
-                <input type="file" id="music-piece" name="music-piece" accept=".mp3,.wav" required>
-
-                <!-- Add users to the room -->
-                <label for="users">Add Users:</label>
-                <input type="text" id="users" name="users" placeholder="Enter usernames/emails of musicians" required>
-
-                <!-- Search bar for finding musicians -->
-                <div class="search-bar">
-                    <label for="search">Search for musicians:</label>
-                    <input type="text" id="search" placeholder="Search musicians...">
-                    <button type="button" onclick="searchMusicians()">Search</button>
-                </div>
-
-                <button type="submit">Create Room</button>
             </form>
         </div>
 
-        <!-- Recorder Section -->
-        <div id="recorder-section" class="recorder-section">
-            <h2>Record Your Piece</h2>
-            <button onclick="startRecording()">Start Recording</button>
-            <button onclick="stopRecording()">Stop Recording</button>
-            <audio id="audio-playback" controls style="display:none;"></audio>
-            <a id="download-link" style="display:none;">Download Recording</a>
+        <!-- Display profiles created -->
+        <div class="profile-list" id="profile-list">
+            <h2>Created Profiles</h2>
+            <!-- Profiles will be displayed here -->
         </div>
     </div>
 
     <script>
-        // Function to toggle the profile form
         function toggleProfileForm() {
             var form = document.getElementById('profile-form');
             form.style.display = form.style.display === "none" ? "block" : "none";
         }
 
-        // Function to show/hide menu
         function toggleMenu() {
             var menu = document.querySelector('.menu-container');
             menu.classList.toggle('active');
         }
 
-        // Function to handle logout and redirect to login page
+        function showRoleSpecificFields() {
+            var role = document.getElementById('role').value;
+            document.getElementById('instrumentalist-fields').style.display = role === 'Instrumentalist' ? 'block' : 'none';
+            document.getElementById('vocalist-fields').style.display = role === 'Vocalist' ? 'block' : 'none';
+        }
+
+        function createProfile(event) {
+            event.preventDefault();
+            // Profile creation logic here
+            alert("Profile Created!");
+        }
+
         function logout() {
-            window.location.href = "index.html";
+            window.location.href = "login.html";
         }
 
-        // Function to open audio editors (redirects to popular audio editing websites)
         function openAudioEditors() {
-            window.open("https://www.adobe.com/au/products/audition/free-trial-download.html", "_blank");
-        }
-
-        // Function to show the room creation form
-        function createRoom() {
-            var roomOptions = document.getElementById('room-options');
-            roomOptions.style.display = "block";
-        }
-
-        // Search musicians functionality (placeholder function)
-        function searchMusicians() {
-            var searchInput = document.getElementById('search').value;
-            alert('Searching for: ' + searchInput);
-        }
-
-        // Function to open the recording section
-        function openRecorder() {
-            var recorderSection = document.getElementById('recorder-section');
-            recorderSection.style.display = "block";
-        }
-
-        // Recorder logic
-        let mediaRecorder;
-        let recordedChunks = [];
-
-        function startRecording() {
-            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.start();
-
-                mediaRecorder.ondataavailable = event => {
-                    if (event.data.size > 0) {
-                        recordedChunks.push(event.data);
-                    }
-                };
-
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(recordedChunks, { type: 'audio/wav' });
-                    const audioURL = URL.createObjectURL(blob);
-                    const audioElement = document.getElementById('audio-playback');
-                    const downloadLink = document.getElementById('download-link');
-
-                    audioElement.src = audioURL;
-                    audioElement.style.display = 'block';
-                    downloadLink.href = audioURL;
-                    downloadLink.download = 'recording.wav';
-                    downloadLink.style.display = 'block';
-                };
-            });
-        }
-
-        function stopRecording() {
-            mediaRecorder.stop();
+            window.open("https://www.audacityteam.org/", "_blank");
         }
     </script>
 </body>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Room</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .create-room-container {
+            padding: 20px;
+        }
+
+        .create-room-container form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="file"], input[type="text"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .search-bar {
+            margin-top: 20px;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: calc(100% - 100px);
+        }
+
+        .search-bar button {
+            padding: 10px;
+            width: 80px;
+        }    
+    </style>
+</head>
+<body>
+    <div class="create-room-container">
+        <h1>Create a Room</h1>
+        
+        <p>Upload your music piece and invite others to join your room.</p>
+
+        <!-- Room creation form -->
+        <form action="/create-room" method="POST">
+            <!-- Upload music piece ------->
+            <label for="music-piece">Upload Music Piece:</label>
+            <input type="file" id="music-piece" name="music-piece" accept=".mp3,.wav" required>
+         
+            <!-- Search for musicians -->
+            <div class="search-bar">
+                <label for="search">Search for musicians:</label>
+                <input type="text" id="search" name="search" placeholder="Search for musicians by name or skill" required>
+                <button type="button" onclick="searchMusicians()">Search</button>
+            </div>
+
+            <!-- Submit button to create the room -->
+            <button type="submit">Create Room</button>
+        </form>
+    </div>
+
+    <script>
+        // Placeholder search function
+        function searchMusicians() {
+            var searchInput = document.getElementById('search').value;
+            alert('Searching for musicians: ' + searchInput);
+        }
+    </script>
+</body>
+</html>
