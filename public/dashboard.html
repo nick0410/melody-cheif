@@ -6,195 +6,81 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* Container for the 3-dot menu */
-        .menu-container {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            cursor: pointer;
-        }
-
-        .menu-container .dot {
-            height: 8px;
-            width: 8px;
-            background-color: #333;
-            border-radius: 50%;
-            display: block;
-            margin: 5px 0;
-        }
-
-        .dropdown {
+        /* Styling remains the same as before */
+        /* Add styles for the room creation section */
+        .room-container {
             display: none;
-            position: absolute;
-            top: 35px;
-            left: 0;
-            background-color: #fff;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 1;
-            width: 200px;
-            border-radius: 5px;
-        }
-
-        .dropdown a {
-            padding: 12px;
-            display: block;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            border-bottom: 1px solid #e6e6e6;
-            transition: background-color 0.3s ease;
-        }
-
-        .dropdown a:hover {
-            background-color: #f0f0f0;
-        }
-
-        .menu-container.active .dropdown {
-            display: block;
-        }
-
-        /* Dashboard Layout */
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            color: #444;
-            text-align: center;
-        }
-
-        p {
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #666;
-        }
-
-        /* Profile Creation Form */
-        .profile-form {
-            display: none;
+            margin-top: 40px;
             padding: 20px;
             background-color: #f9f9f9;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
-        .profile-form h2 {
-            margin-bottom: 15px;
-            font-size: 1.8em;
-            color: #333;
-        }
-
-        .profile-form label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-            font-size: 1.1em;
-        }
-
-        .profile-form input, .profile-form select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            background-color: #fff;
-            transition: border-color 0.3s ease;
-        }
-
-        .profile-form input:focus, .profile-form select:focus {
-            border-color: #00aaff;
-            outline: none;
-        }
-
-        .profile-form button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #00aaff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .profile-form button:hover {
-            background-color: #0077cc;
-        }
-
-        /* Profile List */
-        .profile-list {
-            margin-top: 40px;
-        }
-
-        .profile-list h2 {
+        .room-container h2 {
             font-size: 1.8em;
             margin-bottom: 15px;
             color: #333;
         }
 
-        .profile-item {
+        .available-users {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .user-item {
             background-color: #fff;
             padding: 15px;
             border-radius: 8px;
-            margin-bottom: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 48%;
         }
 
-        .profile-item:hover {
-            transform: translateY(-5px);
+        .user-image {
+            border: 1px solid #ddd;
+             border-radius: 4px;
+             padding: 5px;
+              width: 150px
         }
 
-        .profile-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin-right: 20px;
+        .user-info {
+            flex-grow: 1;
         }
 
-        .profile-item div {
-            flex: 1;
-        }
-
-        .profile-item strong {
+        .user-info strong {
             display: block;
             font-size: 1.1em;
-            margin-bottom: 5px;
             color: #444;
         }
 
-        .profile-item span {
-            color: #777;
-            font-size: 0.9em;
+        .add-btn {
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
         }
+
+        .room-members {
+            margin-top: 20px;
+        }
+
+        .room-member {
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+
+       
     </style>
 </head>
 <body>
@@ -205,9 +91,8 @@
         <div class="dropdown">
             <a href="index.html" onclick="logout()">Log Out</a>
             <a href="#" onclick="toggleProfileForm()">Create Profile</a>
-            <a href="#" onclick="openAudioEditors()">Go to Audio Editors</a>
-            <a href="terms.html">terms</a>
-            <a href="create-room.html">Create Room</a>
+            <a href="#" onclick="toggleRoomCreation()">Create Room</a>
+            <a href="terms.html">Terms</a>
         </div>
     </div>
 
@@ -261,19 +146,34 @@
         <!-- Display profiles created -->
         <div class="profile-list" id="profile-list">
             <h2>Created Profiles</h2>
-            <!-- Profiles will be displayed here -->
+        </div>
+
+        <!-- Room creation section -->
+        <div class="room-container" id="room-container">
+            <h2>Create Room</h2>
+            <div class="available-users" id="available-users">
+                <!-- Users to be displayed here -->
+            </div>
+            <div class="room-members" id="room-members">
+                <h3>Room Members</h3>
+                <!-- Selected members will appear here -->
+            </div>
         </div>
     </div>
 
     <script>
+        var profiles = []; // Store profiles
+        var roomMembers = []; // Store room members
+
         function toggleProfileForm() {
             var form = document.getElementById('profile-form');
             form.style.display = form.style.display === "none" ? "block" : "none";
         }
 
-        function toggleMenu() {
-            var menu = document.querySelector('.menu-container');
-            menu.classList.toggle('active');
+        function toggleRoomCreation() {
+            var roomContainer = document.getElementById('room-container');
+            roomContainer.style.display = roomContainer.style.display === "none" ? "block" : "none";
+            displayAvailableUsers();
         }
 
         function showRoleSpecificFields() {
@@ -284,17 +184,116 @@
 
         function createProfile(event) {
             event.preventDefault();
-            // Profile creation logic here
-            alert("Profile Created!");
+
+            // Get form data
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var role = document.getElementById('role').value;
+            var instrumentType = document.getElementById('instrument-type').value;
+            var vocalType = document.getElementById('vocal-type').value;
+            var experience = document.getElementById('experience').value;
+            var genre = document.getElementById('genre').value;
+            var location = document.getElementById('location').value;
+            var profilePic = document.getElementById('profile-pic').files[0];
+
+            // Create profile object and store in profiles array
+            var profile = {
+                name: name,
+                email: email,
+                role: role,
+                instrumentType: instrumentType,
+                vocalType: vocalType,
+                experience: experience,
+                genre: genre,
+                location: location,
+                profilePic: URL.createObjectURL(profilePic) // Convert image to a URL
+            };
+
+            profiles.push(profile);
+
+            // Display the profile in the list
+            displayProfiles();
+
+            // Reset the form
+            document.getElementById('profile-form').reset();
+        }
+
+        function displayProfiles() {
+            var profileList = document.getElementById('profile-list');
+            profileList.innerHTML = ''; // Clear current profiles
+
+            profiles.forEach((profile, index) => {
+                var profileItem = document.createElement('div');
+                profileItem.classList.add('profile-item');
+
+                var profileContent = `
+                    <img src="${profile.profilePic}" alt="Profile Image" class="profile-image">
+                    <div>
+                        <strong>${profile.name} (${profile.role})</strong>
+                        <span>${profile.email}</span>
+                    </div>
+                    <button class="toggle-btn" onclick="toggleDetails(this)">+</button>
+                    <div class="profile-details">
+                        <p>Instrument: ${profile.instrumentType || "N/A"}</p>
+                        <p>Vocal Type: ${profile.vocalType || "N/A"}</p>
+                        <p>Experience: ${profile.experience} years</p>
+                        <p>Genre: ${profile.genre}</p>
+                        <p>Location: ${profile.location}</p>
+                    </div>
+                `;
+                profileItem.innerHTML = profileContent;
+                profileList.appendChild(profileItem);
+            });
+        }
+
+        function toggleDetails(button) {
+            var profileDetails = button.nextElementSibling;
+            if (profileDetails.style.display === "block") {
+                profileDetails.style.display = "none";
+                button.textContent = "+";
+            } else {
+                profileDetails.style.display = "block";
+                button.textContent = "-";
+            }
+        }
+
+        function displayAvailableUsers() {
+            var availableUsers = document.getElementById('available-users');
+            availableUsers.innerHTML = ''; // Clear current users
+
+            profiles.forEach((profile, index) => {
+                var userItem = document.createElement('div');
+                userItem.classList.add('user-item');
+
+                var userContent = `
+                    <img src="${profile.profilePic}" alt="User Image" class="user-image">
+                    <div class="user-info">
+                        <strong>${profile.name}</strong>
+                        <span>${profile.role}</span>
+                    </div>
+                    <button class="add-btn" onclick="addToRoom(${index})">+</button>
+                `;
+
+                userItem.innerHTML = userContent;
+                availableUsers.appendChild(userItem);
+            });
+        }
+
+        function addToRoom(profileIndex) {
+            var profile = profiles[profileIndex];
+            roomMembers.push(profile);
+
+            var roomMembersContainer = document.getElementById('room-members');
+            var roomMemberItem = document.createElement('div');
+            roomMemberItem.classList.add('room-member');
+            roomMemberItem.innerText = profile.name + " (" + profile.role + ")";
+            roomMembersContainer.appendChild(roomMemberItem);
         }
 
         function logout() {
             window.location.href = "login.html";
         }
 
-        function openAudioEditors() {
-            window.open("https://www.audacityteam.org/", "_blank");
-        }
     </script>
 </body>
 </html>
