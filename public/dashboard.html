@@ -104,6 +104,7 @@
         <button class="menu-btn" onclick="logout()">Log Out</button>
         <button class="menu-btn" onclick="toggleProfileForm()">Create Profile</button>
         <button class="menu-btn" onclick="toggleRoomCreation()">Create Room</button>
+        <button class="menu-btn" onclick="openAudioEditors()">Go to Audio Editors</button>
         <button class="menu-btn" onclick="window.location.href='terms.html'">Terms</button>
     </div>
 
@@ -201,6 +202,8 @@
             var form = document.getElementById('profile-form');
             form.style.display = form.style.display === "none" ? "block" : "none";
         }
+
+       
 
         function toggleRoomCreation() {
             var roomContainer = document.getElementById('room-container');
@@ -331,6 +334,9 @@
         displayUploadedAudio();
     });
 
+
+   
+
     function displayUploadedAudio() {
         var audioList = document.getElementById('audio-list');
         audioList.innerHTML = ''; // Clear current list
@@ -356,6 +362,10 @@
             window.location.href = "index.html";
         }
 
-    </script>
-</body>
-</html>
+        function openAudioEditors() {
+            window.location.href = 'https://audiomass.co/';
+        }
+
+      </script>
+      </body>
+      </html>
