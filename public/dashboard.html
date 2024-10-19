@@ -6,9 +6,30 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Styling remains the same as before */
-        /* Add styles for the room creation section */
-        .room-container {
+        
+    /* Add styles for the room creation section */
+    .menu-btn {
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px 0;
+        }   
+
+        .profile-image, .user-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            padding: 5px;
+        }
+
+    
+    .room-container {
             display: none;
             margin-top: 40px;
             padding: 20px;
@@ -40,12 +61,7 @@
             width: 48%;
         }
 
-        .user-image {
-            border: 1px solid #ddd;
-             border-radius: 4px;
-             padding: 5px;
-              width: 150px
-        }
+    
 
         .user-info {
             flex-grow: 1;
@@ -85,16 +101,17 @@
 </head>
 <body>
     <div class="menu-container" onclick="toggleMenu()">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <div class="dropdown">
-            <a href="index.html" onclick="logout()">Log Out</a>
-            <a href="#" onclick="toggleProfileForm()">Create Profile</a>
-            <a href="#" onclick="toggleRoomCreation()">Create Room</a>
-            <a href="terms.html">Terms</a>
-        </div>
+        <button class="menu-btn" onclick="logout()">Log Out</button>
+        <button class="menu-btn" onclick="toggleProfileForm()">Create Profile</button>
+        <button class="menu-btn" onclick="toggleRoomCreation()">Create Room</button>
+        <button class="menu-btn" onclick="window.location.href='terms.html'">Terms</button>
     </div>
+
+    
+
+    
+        
+    
 
     <div class="dashboard-container">
         <h1>Welcome to the Musician Collaboration Dashboard</h1>
@@ -154,16 +171,31 @@
             <div class="available-users" id="available-users">
                 <!-- Users to be displayed here -->
             </div>
+
+            <!-- Section to upload music piece -->
+    <div class="upload-audio">
+        <h3>Upload Music Piece</h3>
+        <input type="file" id="audio-upload" accept="audio/*" required>
+    </div>
+
             <div class="room-members" id="room-members">
                 <h3>Room Members</h3>
                 <!-- Selected members will appear here -->
             </div>
+
+            <!-- Section to display uploaded music -->
+    <div class="uploaded-audio" id="uploaded-audio">
+        <h3>Uploaded Music Piece</h3>
+        <div id="audio-list"></div>
+    
         </div>
     </div>
 
     <script>
         var profiles = []; // Store profiles
         var roomMembers = []; // Store room members
+        var uploadedAudioFiles = []; // Store uploaded audio files
+
 
         function toggleProfileForm() {
             var form = document.getElementById('profile-form');
@@ -213,6 +245,7 @@
 
             // Display the profile in the list
             displayProfiles();
+            toggleProfileForm();
 
             // Reset the form
             document.getElementById('profile-form').reset();
@@ -290,8 +323,37 @@
             roomMembersContainer.appendChild(roomMemberItem);
         }
 
+        document.getElementById('audio-upload').addEventListener('change', function(event) {
+        var audioFile = event.target.files[0];
+        var audioURL = URL.createObjectURL(audioFile);
+        uploadedAudioFiles.push({ name: audioFile.name, url: audioURL });
+
+        displayUploadedAudio();
+    });
+
+    function displayUploadedAudio() {
+        var audioList = document.getElementById('audio-list');
+        audioList.innerHTML = ''; // Clear current list
+
+        uploadedAudioFiles.forEach(function(audio) {
+            var audioItem = document.createElement('div');
+            audioItem.classList.add('audio-item');
+            
+            audioItem.innerHTML = `
+                <p>${audio.name}</p>
+                <audio controls>
+                    <source src="${audio.url}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <br>
+                <a href="${audio.url}" download="${audio.name}">Download</a>
+            `;
+            audioList.appendChild(audioItem);
+        });
+    }
+
         function logout() {
-            window.location.href = "login.html";
+            window.location.href = "index.html";
         }
 
     </script>
